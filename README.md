@@ -68,4 +68,6 @@ Antes de disponibilizar o formulário, faça um primeiro envio e confirme o emai
 
 O formulário possui validação de campos, um campo invisível contra bots e bloqueio de cliques repetidos. Com JavaScript, os espaços nas extremidades dos campos são removidos e o envio via `file://` é bloqueado com uma orientação. Ao voltar da página do serviço, o botão é reabilitado. Não há reenvio automático após falhas de rede, para evitar duplicatas. Os dados são processados pelo FormSubmit para encaminhamento por email.
 
-Documentação: https://formsubmit.co/ e https://formsubmit.co/ajax-documentation
+O retorno está configurado para o GitHub Pages: `_url` informa `https://kamaradaplayer.github.io/batnode-site/` e `_next` direciona o envio aceito para `obrigado.html`. A política de referência da página mantém o caminho do projeto nas requisições HTTPS, evitando que o link de retorno do serviço aponte apenas para a raiz da conta. O reCAPTCHA permanece habilitado. Ao mudar o domínio de publicação, atualize os dois endereços no HTML.
+
+Documentação: https://formsubmit.co/ e https://formsubmit.co/documentation
