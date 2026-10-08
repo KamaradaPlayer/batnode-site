@@ -14,10 +14,10 @@ Base do site institucional da BatNode em **HTML, CSS e JavaScript**, para evolu�
 
 - `index.html`: estrutura e textos provisórios.
 - `styles.css`: cores, fontes, layout e responsividade.
-- `script.js`: interação do menu para celular.
+- `script.js`: interação do menu para celular e validação do formulário de contato.
 - `.nojekyll`: permite ao GitHub Pages servir diretamente os arquivos estáticos.
 
-Não há dependências, instalação de pacotes ou etapa de compilação. Basta abrir `index.html` no navegador. Para uma prévia local com servidor, se Python estiver instalado:
+Não há dependências, instalação de pacotes ou etapa de compilação. Para visualizar o layout, basta abrir `index.html` no navegador. Para testar o formulário, use o site publicado ou um servidor local: o FormSubmit não aceita páginas abertas via `file://`. Se Python estiver instalado:
 
 ```sh
 python3 -m http.server 8000
@@ -62,10 +62,10 @@ Importe o repositório `KamaradaPlayer/batnode-site` e selecione a branch `main`
 
 ## Formulário de contato
 
-O formulário solicita nome, email e mensagem e usa o FormSubmit para encaminhar os contatos a `batnode.services@gmail.com`. Com JavaScript, o envio e a confirmação acontecem na própria página; sem JavaScript, o formulário segue para a página do serviço. Não há servidor próprio ou chave secreta no site.
+O formulário solicita nome, email e mensagem e usa o FormSubmit para encaminhar os contatos a `batnode.services@gmail.com`. O envio usa o POST nativo do navegador e segue para a página do serviço, onde podem ser feitas a verificação anti-spam e a confirmação do resultado, com ou sem JavaScript. O site não mostra uma confirmação de sucesso antes da resposta do serviço. Não há servidor próprio ou chave secreta no site.
 
 Antes de disponibilizar o formulário, faça um primeiro envio e confirme o email de ativação enviado pelo FormSubmit à caixa da BatNode (confira também o spam). Depois da ativação, faça outro envio para verificar o recebimento e a resposta ao email do remetente. A confirmação na tela indica que o serviço aceitou a solicitação, não comprova a entrega na caixa de entrada.
 
-O formulário possui validação de campos, um campo invisível contra bots, estado de envio e mensagem de erro que preserva o texto preenchido. Os dados são processados pelo FormSubmit para encaminhamento por email.
+O formulário possui validação de campos, um campo invisível contra bots e bloqueio de cliques repetidos. Com JavaScript, os espaços nas extremidades dos campos são removidos e o envio via `file://` é bloqueado com uma orientação. Ao voltar da página do serviço, o botão é reabilitado. Não há reenvio automático após falhas de rede, para evitar duplicatas. Os dados são processados pelo FormSubmit para encaminhamento por email.
 
 Documentação: https://formsubmit.co/ e https://formsubmit.co/ajax-documentation
