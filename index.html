@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Preserva /batnode-site/ no retorno do FormSubmit após a verificação. -->
+  <meta name="referrer" content="no-referrer-when-downgrade">
   <meta name="description" content="BatNode — desenvolvimento web e programação terceirizada.">
   <title>BatNode — Desenvolvimento web</title>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/images/batnode-favicon.png">
@@ -117,6 +119,8 @@ Nosso compromisso é construir relações de confiança, com transparência, ded
       <form id="contact-form" class="contact-form" action="https://formsubmit.co/batnode.services@gmail.com" method="POST">
         <input type="hidden" name="_subject" value="Novo contato pelo site BatNode">
         <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_url" value="https://kamaradaplayer.github.io/batnode-site/">
+        <input type="hidden" name="_next" value="https://kamaradaplayer.github.io/batnode-site/obrigado.html">
         <input type="text" name="_honey" class="contact-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="contact-fields">
           <div class="contact-field">
