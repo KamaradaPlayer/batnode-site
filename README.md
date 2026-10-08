@@ -48,6 +48,10 @@ Configuração prevista: **Settings → Pages → Deploy from a branch → main 
 
 Após ativado, os arquivos da branch `main` serão publicados pelo GitHub Pages. A disponibilidade depende da visibilidade do repositório e do plano da conta. A URL deve ser confirmada após a primeira publicação.
 
+## Hospedagem na Netlify
+
+Importe o repositório `KamaradaPlayer/batnode-site` e selecione a branch `main`. Não é necessário comando de build: o site usa HTML, CSS e JavaScript diretamente. O arquivo `netlify.toml` define a raiz (`.`) como diretório de publicação. Depois de vincular o repositório, novos pushes na `main` serão publicados automaticamente.
+
 ## Conteúdo a completar
 
 - Título e apresentação inicial.
@@ -56,4 +60,12 @@ Após ativado, os arquivos da branch `main` serão publicados pelo GitHub Pages.
 - Nomes, funções e fotos dos cinco integrantes.
 - Contatos e redes sociais no footer.
 
-A planta contém somente espaços de conteúdo; não possui formulário, envio de dados ou backend.
+## Formulário de contato
+
+O formulário solicita nome, email e mensagem e usa o FormSubmit para encaminhar os contatos a `batnode.services@gmail.com`. Com JavaScript, o envio e a confirmação acontecem na própria página; sem JavaScript, o formulário segue para a página do serviço. Não há servidor próprio ou chave secreta no site.
+
+Antes de disponibilizar o formulário, faça um primeiro envio e confirme o email de ativação enviado pelo FormSubmit à caixa da BatNode (confira também o spam). Depois da ativação, faça outro envio para verificar o recebimento e a resposta ao email do remetente. A confirmação na tela indica que o serviço aceitou a solicitação, não comprova a entrega na caixa de entrada.
+
+O formulário possui validação de campos, um campo invisível contra bots, estado de envio e mensagem de erro que preserva o texto preenchido. Os dados são processados pelo FormSubmit para encaminhamento por email.
+
+Documentação: https://formsubmit.co/ e https://formsubmit.co/ajax-documentation

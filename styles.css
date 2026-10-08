@@ -80,12 +80,11 @@ nav a, .footer a:not(.brand) {
   font-size: 0.875rem; 
   padding: 2px 16px;
   border-radius: 20px;
-  transition: transform 0.3s ease, font-weight 0.3s ease, backgroud-color 0.3s ease;
+  border: 1px solid transparent;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
   }
 nav a:hover{ 
   color: var(--accent); 
-  font-weight: bold;
-  transform: translateY(-3.4px);
   background-color: var(--surface);
   border: 1px solid var(--border);
 
@@ -120,6 +119,19 @@ nav a:hover{
 }
 
 .button:hover { filter: brightness(1.08); transform: scale(1.05);}
+
+/* ÍCONES DOS TÍTULOS DAS SEÇÕES */
+.icon { width: 24px; height: 24px; flex-shrink: 0; }
+.section-heading { display: flex; align-items: center; gap: 14px; }
+.section-heading > .icon {
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  color: var(--accent);
+  background: #f4a8040d;
+  border: 1px solid #f4a80433;
+  border-radius: 12px;
+}
 
 /* SEÇÕES E ESPAÇOS DE CONTEÚDO */
 .section-aboutus { padding-block: 64px; border-top: 1px solid var(--border); background: var(--surface);}
@@ -166,6 +178,34 @@ nav a:hover{
 }
 
 /* LINKS DE CONTATO */
+.contact-intro { max-width: 620px; margin-bottom: 24px; }
+.contact-form { max-width: 680px; }
+.contact-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.contact-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.contact-field label { font-size: .875rem; font-weight: 600; }
+.contact-field input, .contact-field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+}
+.contact-field textarea { resize: vertical; min-height: 140px; }
+.contact-form .button { margin-top: 0; font: inherit; font-weight: 700; }
+.contact-form .button:disabled { opacity: .65; cursor: wait; transform: none; }
+.contact-status { margin-top: 16px; }
+.contact-status:empty { display: none; }
+.contact-status[data-state="success"] { color: #a8dfb0; }
+.contact-status[data-state="error"] { color: #ffb5ae; }
+.contact-email { margin-top: 24px; overflow-wrap: anywhere; }
+.contact-honeypot { display: none; }
+@media (max-width: 700px) {
+  .contact-fields { grid-template-columns: 1fr; gap: 0; }
+}
+
 .link-contato {
   color: var(--text);
 }
@@ -206,5 +246,7 @@ nav a:hover{
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .individual-card:hover, .placeholder-box:hover, .button:hover { transform: none; }
 }
 [hidden] { display: none !important; }
