@@ -33,64 +33,56 @@ window.matchMedia('(min-width: 701px)').addEventListener('change', event => {
   if (event.matches) closeMenu();
 });
 
-// Encaminha o contato sem tirar a pessoa da página.
+// Usa o POST nativo para permitir a verificação e a confirmação do FormSubmit.
 const contactForm = document.querySelector('#contact-form');
 if (contactForm) {
   const submitButton = contactForm.querySelector('button[type="submit"]');
   const status = document.querySelector('#contact-status');
   let submitting = false;
 
-  contactForm.addEventListener('submit', async event => {
-    event.preventDefault();
-    if (submitting || !contactForm.reportValidity()) return;
+  function restoreContactForm() {
+    submitting = false;
+    submitButton.disabled = false;
+    submitButton.textContent = 'Enviar mensagem';
+    contactForm.removeAttribute('aria-busy');
+    status.textContent = '';
+    delete status.dataset.state;
+  }
 
-    const fields = Object.fromEntries(new FormData(contactForm));
-    if (fields._honey) return;
-    fields.name = fields.name.trim();
-    fields.email = fields.email.trim();
-    fields.message = fields.message.trim();
-    if (!fields.name || !fields.message) {
-      status.dataset.state = 'error';
-      status.textContent = 'Preencha seu nome e sua mensagem.';
+  // O navegador pode restaurar o botão desabilitado ao voltar da página do serviço.
+  window.addEventListener('pageshow', restoreContactForm);
+
+  contactForm.addEventListener('submit', event => {
+    if (submitting) {
+      event.preventDefault();
       return;
     }
-    if (location.protocol === 'http:' || location.protocol === 'https:') {
-      fields._url = location.href;
+
+    const name = contactForm.elements.namedItem('name');
+    const email = contactForm.elements.namedItem('email');
+    const message = contactForm.elements.namedItem('message');
+    name.value = name.value.trim();
+    email.value = email.value.trim();
+    message.value = message.value.trim();
+
+    if (contactForm.elements.namedItem('_honey').value || !contactForm.reportValidity()) {
+      event.preventDefault();
+      return;
     }
 
+    if (location.protocol !== 'http:' && location.protocol !== 'https:') {
+      event.preventDefault();
+      status.dataset.state = 'error';
+      status.textContent = 'Para enviar, abra o site publicado ou use um servidor local (http://localhost). O formulário não funciona ao abrir o arquivo HTML diretamente.';
+      return;
+    }
+
+    // Não interceptar o POST nem reenviar automaticamente: o serviço confirma o resultado.
     submitting = true;
     submitButton.disabled = true;
-    submitButton.textContent = 'Enviando…';
+    submitButton.textContent = 'Continuando…';
     contactForm.setAttribute('aria-busy', 'true');
     status.dataset.state = 'pending';
-    status.textContent = 'Enviando sua mensagem…';
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000);
-
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/batnode.services@gmail.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(fields),
-        signal: controller.signal
-      });
-      if (!response.ok) throw new Error('Falha no serviço de envio');
-      const result = await response.json();
-      if (result.success !== true && result.success !== 'true') {
-        throw new Error('Envio não confirmado');
-      }
-      status.dataset.state = 'success';
-      status.textContent = 'Mensagem enviada! Entraremos em contato pelo email informado.';
-      contactForm.reset();
-    } catch {
-      status.dataset.state = 'error';
-      status.textContent = 'Não foi possível confirmar o envio. Seus dados foram mantidos. Tente novamente ou escreva para batnode.services@gmail.com.';
-    } finally {
-      clearTimeout(timeout);
-      submitting = false;
-      submitButton.disabled = false;
-      submitButton.textContent = 'Enviar mensagem';
-      contactForm.removeAttribute('aria-busy');
-    }
+    status.textContent = 'Continuando para a verificação e confirmação do envio…';
   });
 }
